@@ -1,0 +1,213 @@
+/* 1. Sizing & display */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/*
+  [1] Allow percentage-based heights in the application
+  [2] Making sure text size is only controlled by font-size
+ https://kilianvalkhof.com/2022/css-html/your-css-reset-needs-text-size-adjust-probably/
+*/
+:where(html) {
+  -webkit-text-size-adjust: none; /* [2] */
+}
+
+@supports not (min-block-size: 100dvb) {
+  :where(html) {
+    block-size: 100%;
+  }
+}
+
+:where(body) {
+  block-size: 100%;
+  block-size: 100dvb;
+}
+/* https://css-tricks.com/fixing-smooth-scrolling-with-find-on-page/ */
+@media (prefers-reduced-motion: no-preference) {
+  :where(html:focus-within) {
+    scroll-behavior: smooth;
+  }
+}
+
+/*
+  2. Typography
+*/
+body {
+  line-height: 1.5;
+  font-family: system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+:where(input, button, textarea, select) {
+  font: inherit;
+}
+
+:where(a) {
+  text-underline-offset: 0.2ex;
+}
+
+/* Avoid text overflows */
+:where(p, h1, h2, h3, h4, h5, h6) {
+  overflow-wrap: break-word;
+}
+
+/* Add the correct font weight in Chrome, Edge, and Safari. */
+:where(b, strong) {
+  font-weight: bold;
+}
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ * 3. Prevent overflow of the container in all browsers (opinionated).
+ */
+
+:where(pre) {
+  font-family: monospace, monospace; /* 1 */
+  overflow: auto; /* 3 */
+}
+
+/**
+ * Use the system font-stack: https://github.com/system-fonts/modern-font-stacks
+ */
+:where(code, kbd, samp) {
+  font-family: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, Consolas,
+    "DejaVu Sans Mono", monospace;
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+
+:where(small) {
+  font-size: 80%;
+}
+
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+  font-family: system-ui, sans-serif;
+}
+
+/* 3. Visual adjustments */
+
+/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+:where(ul, ol)[role="list"] {
+  list-style: none;
+}
+
+/* Remove list styles on ul, ol elements inside a nav element */
+:where(nav):where(ol, ul) {
+  list-style: none;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+/* Make it clear that interactive elements are interactive */
+:where(
+    a[href],
+    area,
+    button,
+    input,
+    label[for],
+    select,
+    summary,
+    textarea,
+    [tabindex]:not([tabindex*="-"])
+  ) {
+  cursor: pointer;
+  touch-action: manipulation;
+}
+:where(input[type="file"]) {
+  cursor: auto;
+}
+:where(input[type="file"])::-webkit-file-upload-button,
+:where(input[type="file"])::file-selector-button {
+  cursor: pointer;
+}
+
+/* Make sure users can't select button text */
+:where(
+    button,
+    button[type],
+    input[type="button"],
+    input[type="submit"],
+    input[type="reset"]
+  ),
+:where(input[type="file"])::-webkit-file-upload-button,
+:where(input[type="file"])::file-selector-button {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  text-align: center;
+}
+
+/* Disabled cursor for disabled buttons */
+:where(:disabled) {
+  cursor: not-allowed;
+}
+
+/* Accessibility */
+/* Remove all animations, transitions and smooth scroll for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  :where(html:focus-within) {
+    scroll-behavior: auto;
+  }
+}
+
+button:focus-visible {
+  outline: 2px solid var(--color-focus, black);
+  outline-offset: 2px;
+}
+
+*,
+*::before,
+*::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
+/* https://meowni.ca/hidden.is.a.lie.html */
+:where([hidden]:not([hidden="until-found"])) {
+  display: none !important;
+}
+
+:where(
+    .visually-hidden:not(:focus, :active, :focus-within, .not-visually-hidden)
+  ) {
+  clip-path: inset(50%) !important;
+  height: 1px !important;
+  width: 1px !important;
+  overflow: hidden !important;
+  position: absolute !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* note: | */
+/*   These new elements display inline by default, */
+/*   but that's not the expected behavior for either one. */
+/*   This can interfere with proper layout and aspect-ratio handling. */
+/**/
+/*   1. Remove the unnecessary wrapping `picture`, while maintaining contents */
+/*   2. Source elements have nothing to display, so we hide them entirely */
+/**/
+/* category: embedded elements */
+:where(picture) {
+  display: contents;
+}
+:where(source) {
+  display: none;
+}
